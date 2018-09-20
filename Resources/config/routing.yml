@@ -1,0 +1,7 @@
+file:
+    resource: '@PuzzleAdminMediaBundle/Resources/config/routing/file.yml'
+    prefix: '/files'
+
+folder:
+    resource: '@PuzzleAdminMediaBundle/Resources/config/routing/folder.yml'
+    prefix: '/folders'

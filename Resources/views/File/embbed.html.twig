@@ -1,0 +1,11 @@
+<input type="hidden" id="files_type" value="{{ type|default('') }}">
+<input type="hidden" id="files_preview" value="{{ previews|default('') }}">
+{% if multiple is defined and multiple == 1 %}
+    <input type="file" class="file-input" multiple="multiple" name="files[]">
+    <input type="hidden" name="source" value="local">
+{% else %}
+    <input type="file" class="file-input" id="local" name="file" data-preview-file-type="text">
+    <input class="form-control hide alternate" name="file-url" id="path" placeholder="URL" type="url"/>
+	<a href="#" id="toggle-source">Changer de source</a>
+	<input id="source" name="source" value="local" type="hidden"/>
+{% endif %}

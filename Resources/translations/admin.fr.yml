@@ -1,0 +1,63 @@
+#Media
+media:
+    base: 'Médiathèque'
+    description: 'Gérer vos photos, audios, vidéos et autres documents'
+    icon: "icon-media"
+    role:
+        file:
+            read: 'Consulter et télécharger la liste de vos fichiers en lecture'
+            manage: 'Ajouter, modifier, supprimer un fichier'
+        folder:
+            read: 'Consulter la liste de vos dossiers'
+            manage: 'Créer, modifier, supprimer un dossier'
+    file:
+        base: 'Fichiers'
+        name: 'Nom'
+        path: 'Illustration'
+        createdAt: 'Date de création'
+        size: 'Taille'
+        extension: 'Format'
+        list: 'Liste des fichiers'
+        create: 'Importer un fichier'
+        create_list: 'Importer des fichiers'
+        delete: 'Etes-vous sûr de vouloir supprimer le fichier'
+        delete_list: 'Etes-vous sûr de vouloir supprimer la sélection de fichiers'
+    picture:
+        base: 'Photos'
+        list: 'Liste des photos'
+        create: 'Importer une image'
+        create_list: 'Importer des images'
+        delete: 'Etes-vous sûr de vouloir supprimer la photo'
+        delete_list: 'Etes-vous sûr de vouloir supprimer la sélection de photos'
+    audio:
+        base: 'Audios'
+        list: 'Liste des audios'
+        create: 'Importer des fichiers audios'
+        remove: 'Etes-vous sûr de vouloir supprimer le fichier audio'
+        remove_list: 'Etes-vous sûr de vouloir supprimer la sélection de fichiers audios'
+    video:
+        base: 'Vidéos'
+        list: 'Liste des vidéos'
+        create: 'Importer une vidéo'
+        create_list: 'Importer des vidéos'
+        remove: 'Etes-vous sûr de vouloir supprimer la vidéo'
+        remove_list: 'Etes-vous sûr de vouloir supprimer la sélection de vidéos'
+    document:
+        base: 'Documents'
+        list: 'Liste des documents'
+        create: 'Importer un document'
+        create_list: 'Importer des documents'
+        remove: 'Etes-vous sûr de vouloir supprimer le document'
+        remove_list: 'Etes-vous sûr de vouloir supprimer la sélection de documents'
+    folder:
+        base: 'Dossiers'
+        name: 'Nom'
+        parent: 'Parent'
+        allowed_extensions: 'Extensions autorisées'
+        list: 'Liste des dossiers'
+        show: 'Détails du dossier'
+        create: 'Nouveau dossier'
+        update: 'Modifier le dossier'
+        browse: 'Parcourir'
+        delete: 'Etes-vous sûr de vouloir supprimer le dossier'
+        delete_list: 'Etes-vous sûr de vouloir supprimer la sélection de dossiers'

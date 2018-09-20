@@ -1,0 +1,62 @@
+{% trans_default_domain 'admin' %}
+
+<div class="modal-dialog {% if multiple == 1 %}modal-full{% endif %}">
+    <div class="modal-content margin-top">
+        <form method="post" action="{{ url('admin_media_file_create') }}" class="form-stacked" enctype="multipart/form-data">
+            <div class="modal-header bg-info">
+                <h3>{{ multiple == 1 ? 'media.action.file.create.list' : 'media.action.file.create' }}</h3>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="files_type" value="{{ type|default('') }}">
+                <input type="hidden" id="files_preview" value="{{ previews|default('') }}">
+                <input type="hidden" name="folder" value="{{ folder }}">
+                
+                {% if multiple == 1 %}
+                    <div class="form-group">     
+                        <input type="file" class="file-input" multiple="multiple" name="files[]">
+                        <input type="hidden" name="source" value="local">
+                    </div>
+                {% else %}
+                    <div class="form-group">     
+                        <input type="file" class="file-input" id="local" name="files[]">
+                    </div>
+                    <div class="form-group hide alternate">
+                        <label for="path" class="form-label">URL</label>
+                        <input class="form-control" name="path" id="path"/>
+                    </div>
+                    <div class="form-group hide alternate">
+                        <label for="path" class="form-label">Nom</label>
+                        <input class="form-control" name="name" id="name"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="caption" class="form-label">Légende</label>
+                        <input class="form-control" name="caption" id="caption"/>
+                    </div>
+                    <div class="form-group hide alternate">
+                        <div class="form-group">
+                            <div class="pull-right">
+                                <input name="uploadable" id="uploadable" type="checkbox" data-switchery/>
+                            </div>
+                            <label for="caption" class="display-block margin-small-top form-label">Copier le fichier</label>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <a href="#" id="toggle-source">Changer de source</a>
+                        <input id="source" name="source" value="local" type="hidden"/>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="modal-footer text-right">
+                <button class="btn btn-link" data-dismiss="modal"><i class="icon-cross"></i> {{ "button.close"|trans }}</button>
+                <button type="submit" class="btn btn-success">
+                    {{ "button.save"|trans }}
+                    <i class="icon-cloud-upload2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/uploaders/fileinput/plugins/purify.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/uploaders/fileinput/plugins/sortable.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/plugins/uploaders/fileinput/fileinput.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/pages/uploader.js') }}"></script>

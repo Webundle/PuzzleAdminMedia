@@ -1,0 +1,64 @@
+{% trans_default_domain 'admin' %}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        {{ form_start(form, {'class': 'uk-form-stacked'}) }}
+        <div class="modal-header"><h3>{{ "media.content.folder.update"|trans }} {{ folder.name|capitalize }}</h3></div>
+        <div class="modal-body">
+            <div class="form-group">
+                {{ form_widget(form.parent) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.name) }}
+                {{ form_widget(form.name) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.slug) }}
+                {{ form_widget(form.slug) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.tag) }}
+                {{ form_widget(form.tag) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.filter) }}
+                {{ form_widget(form.filter, {'id': 'filter'}) }}
+            </div>
+            <div class="form-group hide" id="allowed-extensions-container">
+                {{ form_label(form.allowedExtensions) }}
+                {{ form_widget(form.allowedExtensions, { 'id':'allowed-extensions' }) }}
+            </div>
+        </div>
+        <div class="modal-footer text-right">
+            <button class="btn btn-link" data-dismiss="modal"><i class="icon-cross"></i> {{ "button.close"|trans }}</button>
+            {{ form_widget(form.save) }}
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+<script type="text/javascript" src="{{ asset("bundles/puzzleadmin/js/plugins/forms/tags/tagsinput.min.js") }}"></script>
+<script type="text/javascript" src="{{ asset("bundles/puzzleadmin/js/plugins/forms/tags/tokenfield.min.js") }}"></script>
+<script type="text/javascript" src="{{ asset("bundles/puzzleadmin/js/plugins/ui/prism.min.js") }}"></script>
+<script type="text/javascript" src="{{ asset("bundles/puzzleadmin/js/plugins/forms/inputs/typeahead/typeahead.bundle.min.js") }}"></script>
+<script type="text/javascript" src="{{ asset("bundles/puzzleadmin/js/pages/form_tags_input.js") }}"></script>
+<script type="text/javascript">
+
+    $('.select').select2();
+
+    $('.slug').focus(function(){
+        var slug = $('.slugglable').val().toLowerCase().replace(/\s/g,'-');
+        $(this).val(slug);
+    });
+
+    // Shared agenda
+    $("#filter").change(function(e){
+        if ($(this).val() == "customize"){
+            $("#allowed-extensions-container").removeClass('hide');
+            $("#allowed-extensions").val('');
+        }else {
+            $("#allowed-extensions-container").addClass('hide');
+            $("#allowed-extensions").val($(this).val().replace('/\|/g', ','));
+        }
+    });
+</script>

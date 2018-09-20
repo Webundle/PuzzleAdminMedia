@@ -1,0 +1,110 @@
+{% trans_default_domain 'admin' %}
+
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header bg-info">
+            <h3>
+                <i class="{% if preserveFiles == 1 %}icon-copy3{% else %}icon-scissors{% endif %} position-left"></i>
+                {{ "media.content.folder.browse"|trans }}
+            </h3>
+        </div>
+        <div class="modal-body" id="browserModalBody">
+            <h4>
+                {% if currentFolder is not empty %}
+                    {% set backPath = parent is not empty ? url('admin_media_folders_browser', {'folder':parent.id}) : url('admin_media_folders_browser') %}
+                    {% set backTitle = parent is not empty ? parent.name : "media.content.folder.list"|trans %}
+                    <a href="{{ backPath }}" class="show-modal">
+                        <i class="icon-arrow-left52 position-left"></i>
+                        {{ backTitle }}
+                    </a> / 
+                    {{ currentFolder.name }}
+                {% else %}
+                    {{ "media.content.folder.list"|trans }}
+                {% endif %}
+            </h4>
+            <div style="height:400px;overflow-y:auto;overflow-x:hidden" class="uk-overflow-container">
+                <table class="table table-hover">
+                    <tbody>
+                        {% for folder in folders %}
+                            {% set childsLength = folder._embedded.childs|length|default(0) %}
+                            <tr id="item-{{ folder.id }}" class="toggleable">
+                                <th>
+                                    {% if childsLength > 0 %}
+                                        <a href="{{ url('admin_media_folders_browser', {'folder':folder.id}) }}" class="show-modal">
+                                            <i class="icon-folder-plus"></i>
+                                            {{ folder.name|capitalize }}
+                                        </a>
+                                    {% else %}
+                                        <a href="#" class="text-primary">
+                                            <i class="icon-folder"></i>
+                                            {{ folder.name|capitalize }}
+                                        </a>
+                                    {% endif %}
+                                    
+                                </th>
+                                <th class="text-right">
+                                    <a class="btn btn-flat btn-flat-primary hide toggleable-btn add_files_to_folder" href="{{ path('admin_media_folder_add_files', { 'id': folder.id, 'preserve_files': preserveFiles|default(1) }) }}">
+                                        {{ "button.choose"|trans }}
+                                    </a>
+                                    <input type="hidden" value="{{ preserveFiles|default(1) }}" id="preserveFiles"/>
+                                </th>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    // Show ajax content in a modal
+    $( ".show-modal").click(function( event ) {
+        event.preventDefault();
+        var groupId = $(this).attr('id'),
+            url = encodeURI($(this).attr( "href" ));
+
+        $.get(url).done(function( data ) {
+            $("#showModal").modal("show");
+            $("#showModal").html(data);
+        });
+    });
+    // Add files to folder
+    $(".add_files_to_folder").click(function(e){
+        e.preventDefault();
+        $(this).append('<i class="fa fa-spin fa-spinner fa-fw"></i>');
+        var files = [];
+        url = $(this).attr('href');
+
+        $(".toggleable-btn-select.checked > i").each(function(){
+            files.push($(this).attr("id").replace('toggle-item-', ''));
+        });
+        
+        $.post(url, {files_to_add: files}, function(response){
+            $("#showModal").modal("hide");
+            // Simulate move to action by removeing file
+            if ($("#preserveFiles").val() == 0) {
+                $(".toggleable-btn-select.checked").each(function(){
+                    $(this).closest('tr').fadeOut();
+                });
+            }
+            swal({
+                title: "Good job!",
+                text: files.length + ' fichier(s) ajouté(s) avec succès!',
+                confirmButtonColor: "#66BB6A",
+                type: "success",
+                button: "Recharger"
+            });
+        }).fail(function(e){
+            swal({
+                title: "Oops...",
+                text: e.responseText,
+                confirmButtonColor: "#EF5350",
+                type: "error"
+            });
+        });
+    });
+    // Attach choose button to mouse events
+    $(".modal-dialog").on('mouseenter', '.toggleable', togglize);
+    $(".modal-dialog").on('mouseleave', '.toggleable', untogglize);
+</script>

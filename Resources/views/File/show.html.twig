@@ -1,0 +1,13 @@
+<div class="uk-modal-dialog uk-modal-dialog-lightbox">
+    <button type="button" class="uk-modal-close uk-close uk-close-alt"></button>
+    {% if file.picture is not empty %}
+        <img src="{{file.path}}" id="item_{{ file.id }}">
+    {% elseif file.audio is not empty %}
+        <audio src="{{file.path}}" controls id="item_{{ file.id }}" style="width:100%"></audio>
+    {% elseif file.video is not empty %}
+        <video src="{{file.path}}" style="width:100%" controls id="item_{{ file.id }}"></video>
+    {% else %}
+        <embed src= "{{file.path}}" style="width:100%;height:500px" id="item_{{ file.id }}"></embed>
+    {% endif %}
+    <div class="uk-modal-caption">{{file.name}}</div>
+</div>

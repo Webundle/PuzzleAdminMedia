@@ -1,0 +1,14 @@
+services:
+#    media.example:
+#        class: Puzzle\Admin\MediaBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    # Service
+    admin.media.upload_manager:
+        class: Puzzle\Admin\MediaBundle\Service\UploadManager
+        arguments: [ '%admin_media.upload_dir%', '%admin_media.max_size%' ]
+    # Twig extension
+    media.twig.extension:
+        class: Puzzle\Admin\MediaBundle\Twig\PuzzleAdminMediaExtension
+        arguments: [ '%puzzle_connect.base_apis_uri%' ]
+        tags:
+            - { name: twig.extension }

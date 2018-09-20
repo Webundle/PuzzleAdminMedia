@@ -1,0 +1,40 @@
+# Folder
+admin_media_folder_list:
+    path:     /list
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:list }
+
+admin_media_folders_browser:
+    path:     /list-browser
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:listForModal }
+
+admin_media_folder_create:
+    path:     /create
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:create }
+
+admin_media_folder_show:
+    path:     /{id}
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:show }
+
+admin_media_folder_compress:
+    path:     /{id}/compress
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:compress }
+
+admin_media_folder_update:
+    path:     /{id}/update
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:update }
+
+admin_media_folder_add_files:
+    path:     /{id}/add-files
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:addFiles }
+
+admin_media_folder_remove_files:
+    path:     /{id}/remove-files
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:removeFiles }
+
+admin_media_folder_delete:
+    path:     /{id}/delete
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:delete }
+
+admin_media_folders_remove:
+    path:     /remove/list
+    defaults: { _controller: PuzzleAdminMediaBundle:Folder:removeList }

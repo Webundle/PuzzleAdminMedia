@@ -1,0 +1,68 @@
+{% trans_default_domain 'admin' %}
+
+<div class="sidebar-detached">
+    <div class="sidebar sidebar-default">
+        <div class="sidebar-content">
+            <div class="sidebar-category">
+                <div class="category-content">
+                    {% set path = currentFolder is empty ? url('admin_media_folder_create') : url('admin_media_folder_create', { 'parent':currentFolder.id }) %}
+                    <a href="{{ path }}" class="btn btn-default btn-labeled btn-block show-modal">
+                        <b><i class="icon-folder-plus3" ></i></b>
+                        {{ "media.content.folder.create"|trans }}
+                    </a>
+                </div>
+            </div>
+            <div class="sidebar-category">
+                <div class="category-content no-padding">
+                    <ul class="navigation navigation-alt navigation-accordion no-padding-bottom">
+                        <li class="navigation-divider"></li>
+                        <li class="navigation-header">{{ "media.content.folder.list"|trans }}</li>
+                        {% set backRoute = parent is not empty ? url('admin_media_folder_show', { 'id': parent.id }) :  url('admin_media_file_list') %}
+                        {% if parent is not empty or currentFolder is not empty %}
+                            <li>
+                                <a href="{{ backRoute }}">
+                                    <i class="icon-enter5"></i>
+                                    ..
+                                </a>
+                        </li>
+                        {% endif %}
+                        {% for folder in folders %}
+                            {% set items = folder._embedded.childs|length|default(0) %}
+                            {% set items = folder.files is not defined ? items : items + folder.files|length|default(0) %}
+                            
+                            <li {% if currentFolder is not empty and currentFolder.id == folder.id %}class="active"{% endif %}>
+                                <a href="#">
+                                    <i class="icon-folder"></i>
+                                    {{ folder.name|capitalize }}
+                                    <span class="badge badge-default">{{ items }}</span>
+                                </a>
+                                <ul class="icons-list">
+                                    <li>
+                                        <a href="{{ url('admin_media_folder_show', { 'id': folder.id }) }}">
+                                            <i class="icon-eye"></i> 
+                                            {{ "button.show"|trans }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="{{ url('admin_media_folder_update', { 'id': folder.id }) }}" class="show-modal">
+                                            <i class="icon-pencil"></i> 
+                                            {{ "button.update"|trans }}
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#remove_item_modal" data-toggle="modal" title="{{ "button.remove"|trans }}" class="remove-item" id="remove-item-{{ folder.id }}">
+                                            <i class="icon-trash-alt text-danger"></i>
+                                            {{ "button.remove"|trans }}
+                                        </a>
+                                        <input type="hidden" id="url-remove-item-{{ folder.id }}" value="{{ url('admin_media_folder_delete', {'id': folder.id}) }}">
+                                        <input type="hidden" id="label-remove-item-{{ folder.id }}" value="{{ folder.name }}">
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

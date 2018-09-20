@@ -1,0 +1,135 @@
+{% trans_default_domain 'admin' %}
+
+{% if files is not empty %}
+<div class="modal-dialog modal-full">
+    <div class="modal-content margin-top">
+        <div class="modal-header bg-info"><h3>{{ "media.content.file.list"|trans }}</h3></div>
+        <div class="modal-body">
+            <div style="height:400px;overflow-y:auto;overflow-x:hidden">
+                <div class="panel panel-flat">
+                    <div class="panel-body">
+                        <div class="tabbable">
+                            <ul class="nav nav-tabs nav-tabs-bottom nav-justified">
+                                <li class="active"><a href="#bottom-justified-tab1" data-toggle="tab">Depuis mon stockage local</a></li>
+                                <li><a href="#bottom-justified-tab2" data-toggle="tab">Depuis la médiathèque</a></li>
+                            </ul>
+
+                            <div class="tab-content">
+                                <div class="tab-pane active" id="bottom-justified-tab1">
+                                    <form method="post" action="{{ url('admin_media_file_create') }}" class="uk-form-stacked" enctype="multipart/form-data">
+                                        <div class="form-group">     
+                                            <input type="file" class="file-input-ajax" multiple="multiple" name="files[]">
+                                            <input type="hidden" name="source" value="local">
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <input type="hidden" id="files_type" value="{{ type|default('') }}">
+                                        </div>
+                                        <div class="modal-footer text-right">
+                                            <button type="submit" class="btn btn-primary">{{ "button.choose"|trans }}</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <div class="tab-pane" id="bottom-justified-tab2">
+                                    {% if enableMultipleSelect == 1 %}
+                                        <div class="text-right">
+                                            <li>
+                                                <a href="#" class="text-danger validate toggle-action hide" data-toggle="modal">
+                                                    <i class="icon-check"></i> {{ "button.choose"|trans }}
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="#" id="toggle-check">
+                                                    <i class="icon-checkbox-unchecked toggle-icon" id="toggle-check-icon"></i> 
+                                                    <span id="toggle-check-text">{{ "button.select_all"|trans }}</span>
+                                                </a>
+                                                <input type="hidden" value="{{ files|length|default('0') }}" id="toggle-items-count">
+                                                <input type="hidden" value="0" id="toggle-items-checked-count">
+                                            </li>
+                                        </div>
+                                    {% endif %}
+                                    <div class="row">
+                                        {% for file in files %}
+                                            <div class="col-lg-3 col-sm-6 toggle-item toggleable" id="grid_file_{{ file.id }}">
+                                                <div class="thumbnail">
+                                                    <div class="thumb">
+                                                        {% if file.type == 'audio' %}
+                                                            <video src="{{ file.path }}" style="width:100%;height:144px" controls id="item_{{ file.id }}" poster="{{ asset("bundles/puzzleadmin/libs/img/audio.jpg"|imagine_filter('thumb', {"thumbnail": {"size": [300, 200] }})) }}"></video>
+                                                        {% elseif file.type == 'video'  %}
+                                                            <video src="{{ file.path }}" style="width:100%;height:144px" controls id="item_{{ file.id }}"></video>
+                                                        {% elseif file.type == 'image'  %}
+                                                            <img src="{{ render_http_url_from_path(file.path) }}" alt="" id="item_{{ file.id }}">
+                                                        {% else %}
+                                                            <img src="{{ asset("bundles/puzzleadmin/libs/img/file.png"|imagine_filter('thumb', {"thumbnail": {"size": [300, 200] }})) }}" alt="" id="item_{{ file.id }}">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="caption">
+                                                        <h6 class="no-margin">
+                                                            <a href="#" class="text-default">{{ file.name }}</a>
+                                                            <a class="text-muted text-small pull-right hide toggleable-btn toggleable-btn-select" href="#">
+                                                                <i class="toggle-icon toggle-item icon-checkbox-unchecked" id="toggle-item-{{ file.id }}"></i>
+                                                            </a>
+                                                        </h6>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+    <script type="text/javascript" src="{{ asset('bundles/puzzleadmin/js/pages/uploader.js') }}"></script>
+    <script>
+        // Modal template
+        var modalTemplate = '<div class="modal-dialog modal-lg" role="document">\n' +
+            '  <div class="modal-content">\n' +
+            '    <div class="modal-header">\n' +
+            '      <div class="kv-zoom-actions btn-group">{toggleheader}{fullscreen}{borderless}{close}</div>\n' +
+            '      <h6 class="modal-title">{heading} <small><span class="kv-zoom-title"></span></small></h6>\n' +
+            '    </div>\n' +
+            '    <div class="modal-body">\n' +
+            '      <div class="floating-buttons btn-group"></div>\n' +
+            '      <div class="kv-zoom-body file-zoom-content"></div>\n' + '{prev} {next}\n' +
+            '    </div>\n' +
+            '  </div>\n' +
+            '</div>\n';
+
+        
+        $(".file-input-ajax").fileinput({
+            uploadUrl: Routing.generate('admin_media_file_create'), // server upload action
+            uploadAsync: false,
+            showUpload: false, // hide upload button
+            showRemove: false, // hide remove button
+            minFileCount: 1,
+            maxFileCount: 5,
+            initialPreview: [],
+            fileActionSettings: {
+                removeIcon: '<i class="icon-bin"></i>',
+                removeClass: 'btn btn-link btn-xs btn-icon',
+                uploadIcon: '<i class="icon-upload"></i>',
+                uploadClass: 'btn btn-link btn-xs btn-icon',
+                zoomIcon: '<i class="icon-zoomin3"></i>',
+                zoomClass: 'btn btn-link btn-xs btn-icon',
+                indicatorNew: '<i class="icon-file-plus text-slate"></i>',
+                indicatorSuccess: '<i class="icon-checkmark3 file-icon-large text-success"></i>',
+                indicatorError: '<i class="icon-cross2 text-danger"></i>',
+                indicatorLoading: '<i class="icon-spinner2 spinner text-muted"></i>',
+            },
+            layoutTemplates: {
+                icon: '<i class="icon-file-check"></i>',
+                modal: modalTemplate
+            },
+            initialCaption: "No file selected",
+            previewZoomButtonClasses: previewZoomButtonClasses,
+            previewZoomButtonIcons: previewZoomButtonIcons
+        }).on('fileuploaded', function(e, params) {
+            console.log('file uploaded', e, params);
+        });
+    </script>
+{% endif %}

@@ -1,0 +1,9 @@
+{% trans_default_domain 'admin' %}
+
+{% extends 'PuzzleAdminBundle::layout.html.twig' %}
+
+{% block title %}{{ parent() }} - {{ "media.base"|trans }} {% endblock %}
+
+{% block mainicon %}<i class="{{ "media.icon"|trans }}"></i>{% endblock %}
+	
+{% block maintitle %}{{ "media.base"|trans }}{% endblock %}

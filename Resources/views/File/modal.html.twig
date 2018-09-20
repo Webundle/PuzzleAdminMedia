@@ -1,0 +1,49 @@
+<button type="button" class="uk-modal-close uk-close"></button>
+<div class="uk-margin-medium-bottom">
+    <div class="uk-grid" data-uk-grid-margin>
+        <div class="uk-width-1-1">
+            <ul class="uk-tab" data-uk-tab="{connect:'#tabs_1'}">
+                <li class="uk-active"><a href="#">Depuis votre ordinateur</a></li>
+                <li><a href="#" id="load_media">Depuis la médiathèque</a></li>
+            </ul>
+            <ul id="tabs_1" class="uk-switcher uk-margin">
+                <li id="fromLocal">
+                    <div class="uk-width-large-1-1">
+                        <div id="file_upload_drop" class="uk-file-upload">
+                            <p class="uk-text">Glisser/Déposer</p>
+                            <p class="uk-text-muted uk-text-small uk-margin-small-bottom">ou</p>
+                            <a class="uk-form-file md-btn md-btn-flat md-btn-flat-primary" id="file_upload_label">Choisir<input id="file_upload_select" type="file" {% if enableMultipleSelect == 1 %}multiple{% endif %}></a>
+                            <input type="hidden" id="enable_mutiple_select" value="{{ enableMultipleSelect|default(0) }}">
+                            <input type="hidden" id="file_filters" value="{{ filters }}">
+                            <input type="hidden" id="file_upload_context" value="{{ context }}">
+                            <input type="hidden" id="file_type" value="{{ type }}">
+                        </div>
+                        <div id="file_upload_progressbar" class="uk-progress uk-hidden">
+                            <div class="uk-progress-bar" style="width:0">0%</div>
+                        </div>
+                    </div>
+                </li>
+                <li id="fromMedia"></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<script src="{{asset("bundles/puzzleadmin/js/common.min.js")}}"></script>
+<script src="{{asset("bundles/puzzleadmin/js/uikit_custom.min.js")}}"></script>
+<script src="{{asset("bundles/puzzleadmin/js/pages/forms_file_upload.js")}}"></script>
+<script type="text/javascript">
+    altair_forms.init();
+    altair_md.init();
+    
+    // Load media
+    $("#load_media").click(function(){
+        $("#fromMedia").html('<div class="uk-text-center"><div class="md-preloader"><svg xmlns="http://www.w3.org/2000/svg" version="1.1" height="96" width="96" viewBox="0 0 75 75"><circle cx="37.5" cy="37.5" r="33.5" stroke-width="4"></circle></svg></div></div>');
+        var url = Routing.generate('admin_media_files', {'type': $("#file_type").val(), 'context': $("#file_upload_context").val(), 'multiple_select': $("#enable_mutiple_select").val(), 'target': 'modal'});
+        
+        $.get(url, function(response) {
+            $('#fromMedia').html(response);
+        });
+    });
+    
+    altair_form_file_upload.init($("#file_type").val());
+</script>

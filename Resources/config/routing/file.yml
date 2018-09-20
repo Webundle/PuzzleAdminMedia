@@ -1,0 +1,23 @@
+admin_media_file_list:
+    path:     /list
+    defaults: { _controller: PuzzleAdminMediaBundle:File:list }
+
+admin_media_files_in_modal:
+    path:     /list-for-modal
+    defaults: { _controller: PuzzleAdminMediaBundle:File:listForModal }
+
+admin_media_file_create:
+    path:     /create
+    defaults: { _controller: PuzzleAdminMediaBundle:File:create }
+    
+admin_media_file:
+    path:     /{id}
+    defaults: { _controller: PuzzleAdminMediaBundle:File:show }
+
+admin_media_file_remove:
+    path:     /remove/{id}
+    defaults: { _controller: PuzzleAdminMediaBundle:File:remove }
+
+admin_media_file_remove_list:
+    path:     /remove-list
+    defaults: { _controller: PuzzleAdminMediaBundle:File:removeList }
