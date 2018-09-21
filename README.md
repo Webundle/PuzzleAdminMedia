@@ -61,7 +61,7 @@ puzzle_admin_media:
             description: media.role.default
 ```
 
-### Step 5: Enable module
+### Step 5: Configure navigation menu
 
 Then, enable management bundle via admin modules interface by adding it to the list of registered bundles in the `app/config/config.yml` file of your project under:
 
@@ -69,5 +69,30 @@ Then, enable management bundle via admin modules interface by adding it to the l
 # Client Admin
 puzzle_admin:
     ...
-    modules_availables: '...,media'
+    navigation:
+   		nodes:
+   			media:
+                label: 'media.base'
+                translation_domain: 'admin'
+                attr:
+                    class: 'icon-media'
+                parent: ~
+                user_roles: ['ROLE_MEDIA', 'ROLE_ADMIN']
+                tooltip: 'media.tooltip'
+            media_file:
+                label: 'media.file.base'
+                translation_domain: 'admin'
+                path: 'admin_media_file_list'
+                sub_paths: ['admin_media_file_create', 'admin_media_file_update', 'admin_media_file_show']
+                parent: media
+                user_roles: ['ROLE_MEDIA', 'ROLE_ADMIN']
+                tooltip: 'media.page.tooltip'
+            media_folder:
+                label: 'media.folder.base'
+                translation_domain: 'admin'
+                path: 'admin_media_folder_list'
+                sub_paths: ['admin_media_folder_create', 'admin_media_folder_update', 'admin_media_folder_show']
+                parent: media
+                user_roles: ['ROLE_MEDIA', 'ROLE_ADMIN']
+                tooltip: 'media.folder.tooltip'
 ```
