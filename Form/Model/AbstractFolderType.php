@@ -18,68 +18,42 @@ class AbstractFolderType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'translation_domain' => 'admin',
-                'label' => 'media.property.folder.name',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'attr' => [
-                    'class' => 'form-control slugglable'
-                ],
-            ])
-            ->add('slug', TextType::class, [
-                'translation_domain' => 'admin',
-                'label' => 'media.property.folder.slug',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'attr' => [
-                    'class' => 'form-control slug'
-                ],
+                'label' => 'media.folder.name',
+                'label_attr' => ['class' => 'form-label'],
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('tag', TextType::class, [
                 'translation_domain' => 'admin',
-                'label' => 'media.property.folder.tag',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'attr' => [
-                    'class' => 'form-control'
-                ],
+                'label' => 'media.folder.tag',
+                'label_attr' => ['class' => 'form-label'],
+                'attr' => ['class' => 'form-control'],
                 'required' => false
             ])
             ->add('filter', ChoiceType::class, array(
                 'translation_domain' => 'admin',
                 'choices' => array(
-                    "media.content.file.list" =>    "*",
-                    "media.content.picture.list"    => MediaUtil::supportedPictureExtensions(),
-                    "media.content.audio.list"      => MediaUtil::supportedAudioExtensions(),
-                    "media.content.video.list"      => MediaUtil::supportedVideoExtensions(),
-                    "media.content.document.list"   => MediaUtil::supportedDocumentExtensions(),
-                    "Personaliser"                  => "customize",
+                    "media.file.list" =>    "*",
+                    "media.picture.list"    => MediaUtil::supportedPictureExtensions(),
+                    "media.audio.list"      => MediaUtil::supportedAudioExtensions(),
+                    "media.video.list"      => MediaUtil::supportedVideoExtensions(),
+                    "media.document.list"   => MediaUtil::supportedDocumentExtensions(),
+                    "Personaliser"          => "customize",
                 ),
                 'choices_as_values' => true,
-                'attr' => [
-                    'class' => 'select'
-                ],
+                'attr' => ['class' => 'select'],
                 'mapped' => false
             ))
             ->add('allowedExtensions', TextType::class, array(
                 'translation_domain' => 'admin',
                 'label' => 'media.property.folder.allowed_extensions',
-                'label_attr' => [
-                    'class' => 'form-label'
-                ],
-                'attr' => [
-                    'class' => "form-control tokenfield"
-                ],
+                'label_attr' => ['class' => 'form-label'],
+                'attr' => ['class' => "form-control tokenfield"],
                 'required' => false
             ))
             ->add('save', SubmitType::class, array(
                 'translation_domain' => 'admin',
                 'label' => 'button.save',
-                'attr' => [
-                    'class' => "btn btn-success"
-                ]
+                'attr' => ['class' => "btn btn-success"]
             ))
         ;
     }

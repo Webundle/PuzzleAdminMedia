@@ -3,6 +3,7 @@ media:
     base: 'Médiathèque'
     description: 'Gérer vos photos, audios, vidéos et autres documents'
     icon: "icon-media"
+    filter: 'Filtrer'
     role:
         file:
             read: 'Consulter et télécharger la liste de vos fichiers en lecture'
